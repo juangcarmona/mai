@@ -10,6 +10,10 @@ SCRIPTS_DIR="$ROOT_DIR/scripts"
 source "$SCRIPTS_DIR/logs.sh"
 source "$SCRIPTS_DIR/constants.sh"
 
+
+# Ensure sudo credentials are requested at the start
+sudo -v
+
 # Function to execute a script and check for errors
 run_script() {
     local script_path=$1
