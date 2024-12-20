@@ -17,17 +17,31 @@ install_cuda_and_cudnn() {
     # CUDA Toolkit installation
     log "Adding NVIDIA package repository..."
     TEMP_FILE="$MAI_TEMP/cuda-keyring_1.1-1_all.deb"
-    wget -O "$TEMP_FILE" https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb || error "Failed to download NVIDIA package repository."
+    if [ ! -f "$TEMP_FILE" ]; then
+        log "Downloading CUDA keyring..."
+        wget -O "$TEMP_FILE" https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb || error "Failed to download NVIDIA package repository."
+    else
+        log "CUDA keyring already downloaded. Skipping download."
+    fi
     sudo dpkg -i "$TEMP_FILE" || error "Failed to add NVIDIA package repository."
 
     log "Installing CUDA Toolkit..."
-    sudo apt-get update -y
-    sudo apt-get install -y cuda-toolkit-12-5 || error "Failed to install CUDA Toolkit."
+    if dpkg-query -W -f='${Status}' cuda-toolkit-12-5 2>/dev/null | grep -q "install ok installed"; then
+        log "CUDA Toolkit is already installed. Skipping installation."
+    else
+        sudo apt-get update -y
+        sudo apt-get install -y cuda-toolkit-12-5 || error "Failed to install CUDA Toolkit."
+    fi
 
     # cuDNN installation
     log "Adding cuDNN package repository..."
     CUDNN_TEMP="$MAI_TEMP/cudnn-local-repo.deb"
-    wget -O "$CUDNN_TEMP" "https://developer.download.nvidia.com/compute/cudnn/9.6.0/local_installers/cudnn-local-repo-ubuntu2204-9.6.0_1.0-1_amd64.deb" || error "Failed to download cuDNN repository."
+    if [ ! -f "$CUDNN_TEMP" ]; then
+        log "Downloading cuDNN repository..."
+        wget -O "$CUDNN_TEMP" "https://developer.download.nvidia.com/compute/cudnn/9.6.0/local_installers/cudnn-local-repo-ubuntu2204-9.6.0_1.0-1_amd64.deb" || error "Failed to download cuDNN repository."
+    else
+        log "cuDNN repository already downloaded. Skipping download."
+    fi
     sudo dpkg -i "$CUDNN_TEMP" || error "Failed to add cuDNN repository."
     sudo cp /var/cudnn-local-repo-ubuntu2204-9.6.0/cudnn-local-*-keyring.gpg /usr/share/keyrings/cudnn-local-9.6-keyring.gpg
 
@@ -39,12 +53,19 @@ install_cuda_and_cudnn() {
     fi
 
     log "Installing cuDNN..."
-    sudo apt-get update
-    sudo apt-get install -y cudnn || error "Failed to install cuDNN."
+    if dpkg-query -W -f='${Status}' cudnn 2>/dev/null | grep -q "install ok installed"; then
+        log "cuDNN is already installed. Skipping installation."
+    else
+        sudo apt-get update
+        sudo apt-get install -y cudnn || error "Failed to install cuDNN."
+    fi
 
     log "Installing cuDNN for CUDA 12..."
-    sudo apt-get install -y cudnn-cuda-12 || error "Failed to install cuDNN for CUDA 12."
-
+    if dpkg-query -W -f='${Status}' cudnn-cuda-12 2>/dev/null | grep -q "install ok installed"; then
+        log "cuDNN for CUDA 12 is already installed. Skipping installation."
+    else
+        sudo apt-get install -y cudnn-cuda-12 || error "Failed to install cuDNN for CUDA 12."
+    fi
 
     log "CUDA Toolkit and cuDNN installed successfully."
 

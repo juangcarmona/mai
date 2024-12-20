@@ -69,10 +69,12 @@ display_system_info() {
     echo -e "${GREEN}Available Memory:${NC} $MEMORY"
 
     # Virtual Environment
-    if [ -d "$MAI_VENV" ]; then
-        source "$MAI_VENV/bin/activate"
+    
+    local VENV_DIR="$MAI_DIR/venv"
+    if [ -d "$VENV_DIR" ]; then
+        source "$VENV_DIR/bin/activate"
         PACKAGE_COUNT=$(pip list | wc -l)
-        echo -e "${GREEN}Virtual Environment:${NC} Active at $MAI_VENV"
+        echo -e "${GREEN}Virtual Environment:${NC} Active at $VENV_DIR"
 
         if pip show llama-cpp-python &>/dev/null; then
             echo -e "${GREEN}llama-cpp-python:${NC} Installed"
@@ -105,18 +107,16 @@ display_system_info() {
         DOCKER_VERSION=$(docker --version | awk '{print $3}' | sed 's/,//')
         echo -e "${GREEN}Docker Version:${NC} $DOCKER_VERSION"
 
-        if [ -f "/run/WSL" ]; then
-            echo -e "${GREEN}Docker Status:${NC} Integrated with WSL"
+        # Check if Docker daemon is accessible
+        if docker info &>/dev/null; then
+            echo -e "${GREEN}Docker Status:${NC} Running"
         else
-            if systemctl is-active --quiet docker; then
-                echo -e "${GREEN}Docker Status:${NC} Running"
-            else
-                echo -e "${YELLOW}Docker Status:${NC} Not running"
-            fi
+            echo -e "${YELLOW}Docker Status:${NC} Not running or not accessible"
         fi
     else
         echo -e "${YELLOW}Docker:${NC} Not installed"
     fi
+
 
     # Network Information
     IP_ADDRESS=$(hostname -I | awk '{print $1}')

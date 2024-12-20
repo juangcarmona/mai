@@ -8,18 +8,35 @@ source "$(dirname "$0")/constants.sh"
 
 # Function to install llama-cpp-python in a virtual environment
 install_llama_cpp_python() {
+    log "Checking prerequisites for Python virtual environments..."
+    
+    # Ensure the python3-venv package is installed
+    if ! dpkg -l | grep -q python3-venv; then
+        warn "The package python3-venv is missing. Installing it now..."
+        sudo apt-get update -y || error "Failed to update package list."
+        sudo apt-get install -y python3-venv || error "Failed to install python3-venv."
+    fi
+
     log "Creating MAI directory at $MAI_DIR..."
     mkdir -p "$MAI_DIR"
 
     local VENV_DIR="$MAI_DIR/venv"
-    log "Creating virtual environment for llama-cpp-python at $VENV_DIR..."
-    python3 -m venv "$VENV_DIR" || error "Failed to create virtual environment."
+    
+    # Check if virtual environment already exists
+    if [ -d "$VENV_DIR" ]; then
+        warn "Virtual environment already exists at $VENV_DIR. Skipping creation."
+    else
+        log "Creating virtual environment for llama-cpp-python at $VENV_DIR..."
+        python3 -m venv "$VENV_DIR" || error "Failed to create virtual environment."
+    fi
 
     log "Activating virtual environment..."
     source "$VENV_DIR/bin/activate" || error "Failed to activate virtual environment."
 
-    log "Installing llama-cpp-python..."
+    log "Installing or updating llama-cpp-python..."
     pip install --upgrade pip setuptools wheel || error "Failed to upgrade pip, setuptools, or wheel."
+    
+    # Install llama-cpp-python without cache to ensure clean installation
     pip install llama-cpp-python --no-cache-dir || error "Failed to install llama-cpp-python."
 
     if command -v nvidia-smi &>/dev/null; then

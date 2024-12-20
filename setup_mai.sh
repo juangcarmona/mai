@@ -49,7 +49,7 @@ main() {
     log "Starting MAI setup..."
     run_script "$INSTALL_ZSH"
     run_script "$INSTALL_CUDA"
-    run_script "$INSTALL_LLAMA_CPP"
+    # run_script "$INSTALL_LLAMA_CPP"
     run_script "$INSTALL_LLAMA_CPP_PYTHON"
     run_script "$CONFIGURE_ENVIRONMENT"
 
