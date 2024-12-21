@@ -56,6 +56,21 @@ To enable a seamless AI development experience, the following dependencies are i
 - **[OpenAI](https://platform.openai.com/docs/)**: Integration library for accessing OpenAI's GPT models.
 - **[Autograd](https://github.com/HIPS/autograd)**: A Python package for automatic differentiation to enable custom training loops.
 
+## System Utilities
+
+During the setup, the following utilities are installed to enhance system usability and streamline your workflow:
+
+- **tree**: Visualize directory structures in a tree format. Essential for navigating complex directories.
+- **htop**: Interactive system resource monitor to view and manage system processes.
+- **curl**: Command-line tool to transfer data from or to a server. Widely used for API requests and downloads.
+- **wget**: A non-interactive network downloader for files from the web.
+- **unzip**: Utility to extract ZIP files directly from the terminal.
+- **git**: Industry-standard version control system for managing source code.
+- **jq**: Lightweight and flexible command-line JSON processor.
+- **neofetch**: Display system information (OS, kernel, uptime, etc.) in a visually appealing format.
+
+These utilities are installed as part of the script `install_utilities.sh` to ensure a productive development environment.
+
 ## Color Palette
 
 I’ve chosen **Deep Teal (#1E5F74)** as the primary color for MAI. This color reflects sophistication, modernity, and a sense of intelligence and elegance. It embodies the forward-thinking vision of MAI.

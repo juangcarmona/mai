@@ -27,6 +27,7 @@ run_script() {
 
 # Define script paths
 INSTALL_ZSH="$SCRIPTS_DIR/install_zsh.sh"
+INSTALL_UTILITIES="$SCRIPTS_DIR/install_utilities.sh"
 INSTALL_CUDA="$SCRIPTS_DIR/install_cuda.sh"
 INSTALL_LLAMA_CPP="$SCRIPTS_DIR/install_llama_cpp.sh"
 INSTALL_LLAMA_CPP_PYTHON="$SCRIPTS_DIR/install_llama_cpp_python.sh"
@@ -50,20 +51,44 @@ main() {
 
     log "Starting MAI setup..."
     run_script "$INSTALL_ZSH"
+    run_script "$INSTALL_UTILITIES"
     run_script "$INSTALL_CUDA"
-    # run_script "$INSTALL_LLAMA_CPP"
+    # This step should be triggered manually after system setup:
+    # run_script "$INSTALL_LLAMA_CPP" 
     run_script "$INSTALL_LLAMA_CPP_PYTHON"
     run_script "$CONFIGURE_ENVIRONMENT"
     run_script "$SCRIPTS_DIR/install_python_packages.sh"
 
 
-    echo -e "${BLUE}"
-    echo "╔═══════════════════════════════════════════╗"
-    echo "║       MAI setup completed successfully!   ║"
-    echo "╚═══════════════════════════════════════════╝"
-    echo -e "${NC}"
+echo -e "${BLUE}"
+          echo "╔═══════════════════════════════════════════════════╗"
+          echo -e "║         ${GREEN}MAI setup completed successfully!  ${BLUE}       ║"
+echo -e "${BLUE}╔═══════════════════════════════════════════════════╗"
+echo -e "${BLUE}║${YELLOW}✨ Thank you for using MAI! ✨${BLUE}                     ║"
+echo -e "${BLUE}║${YELLOW}Give it a star on GitHub! 🌟${BLUE}                       ║"
+echo -e "${BLUE}║${CYAN}Repo: https://github.com/juangcarmona/mai${BLUE}          ║"
+echo -e "${BLUE}║${GREEN}Contribute! Fork, PR, or share your ideas. 🤖${BLUE}      ║"
+echo "╚═══════════════════════════════════════════════════╝"
+echo -e "${NC}"
 
-    warn "Please restart your terminal or run 'source ~/.zshrc' to apply environment changes."
+
+    warn "╔══════════════════════════════════════════════╗"
+    warn "║ ${YELLOW}FIRST                                        ${NC}║"
+    warn "║ Please restart your terminal or run:         ║"
+    warn "║   ${CYAN}source ~/.zshrc${NC}                            ║"
+    warn "║ To apply environment changes.                ║"
+    warn "╚══════════════════════════════════════════════╝"
+
+    warn "╔══════════════════════════════════════════════╗"
+    warn "║ ${YELLOW}SECOND                                       ${NC}║"
+    warn "║ 🚀 ${YELLOW}NOTE: llama.cpp has not been built yet.${NC}   ║"
+    warn "║ To build llama.cpp, please run the command:  ║"
+    warn "║                                              ║"
+    warn "║ ${CYAN}chmod +x $INSTALL_LLAMA_CPP &&             "
+    warn "║ ${CYAN}$INSTALL_LLAMA_CPP                      "
+    warn "╚══════════════════════════════════════════════╝"
+
 }
+
 
 main

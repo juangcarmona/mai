@@ -6,19 +6,8 @@ set -e
 source "$(dirname "$0")/logs.sh"
 source "$(dirname "$0")/constants.sh"
 
-# Function to install llama.cpp
 install_llama_cpp() {
     local LLAMA_DIR="$MAI_DIR/llama.cpp"
-
-    # Ensure cmake is installed
-    log "Ensuring cmake is installed..."
-    if ! command -v cmake &>/dev/null; then
-        log "cmake not found. Installing..."
-        sudo apt-get update
-        sudo apt-get install -y cmake build-essential || error "Failed to install cmake."
-    else
-        log "cmake is already installed."
-    fi
 
     log "Cloning llama.cpp repository to $LLAMA_DIR..."
     if [ -d "$LLAMA_DIR" ]; then
@@ -31,18 +20,24 @@ install_llama_cpp() {
 
     log "Building llama.cpp..."
     cd "$LLAMA_DIR"
+
+    # Crear un directorio build y usar CMake
     mkdir -p build
     cd build
+
+    log "Configuring build with CMake..."
     if command -v nvidia-smi &>/dev/null; then
         log "NVIDIA GPU detected, building with CUDA support..."
-        cmake .. -DGGML_CUDA=on || error "CMake configuration failed for CUDA."
+        cmake .. -DLLAMA_CUBLAS=off -DGGML_CUDA=on || error "CMake configuration failed for CUDA."
     else
-        warn "No NVIDIA GPU detected, building without CUDA support..."
+        warn "No NVIDIA GPU detected. Building without CUDA support."
         cmake .. || error "CMake configuration failed."
     fi
-    make || error "Failed to build llama.cpp."
 
-    log "llama.cpp installed successfully at $LLAMA_DIR."
+    log "Compiling llama.cpp..."
+    make || error "Failed to compile llama.cpp."
+
+    log "llama.cpp compiled successfully. CLI and server binaries are available in $LLAMA_DIR/build."
 }
 
 install_llama_cpp
