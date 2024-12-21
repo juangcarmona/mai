@@ -87,9 +87,15 @@ display_system_info() {
 
     # llama.cpp
     if [ -d "$MAI_DIR/llama.cpp" ]; then
-        echo -e "${GREEN}llama.cpp:${NC} Installed"
+        if command -v llama-cli &>/dev/null; then
+            echo -e "${GREEN}llama.cpp:${NC} Installed and functional."
+        else
+            echo -e "${YELLOW}llama.cpp:${NC} Detected but not fully functional."
+            echo -e "You can try running the installation script to complete the setup."
+        fi
     else
-        echo -e "${YELLOW}llama.cpp:${NC} Not installed"
+        echo -e "${RED}llama.cpp:${NC} Not installed."
+        echo -e "Run the installation script to install llama.cpp."
     fi
 
     # Git Version

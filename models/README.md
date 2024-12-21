@@ -8,6 +8,50 @@ You can download compatible models for `llama-cpp-python` and other frameworks f
 - [Meta AI Research](https://ai.facebook.com/tools/llama/)
 - [Unsloth AI](https://github.com/unslothai/unsloth) (finetuning and optimized models)
 
+## Instructions for Using Hugging Face Models
+
+To use models from Hugging Face with `llama.cpp`, you need to:
+
+1. **Create a Hugging Face Account**:  
+   - Sign up or log in at [Hugging Face](https://huggingface.co/join).  
+   - Generate an access token from [your profile](https://huggingface.co/settings/tokens) and store it locally. Use this token when downloading models.
+
+2. **Model Compatibility**:  
+   - Models may need conversion to formats like `GGUF` to work with `llama.cpp`. Ensure you follow the appropriate steps for compatibility.
+
+3. **Download Models**:  
+   - Use the Hugging Face CLI to download models. See [bloquedecodigo1] for an example of downloading a Llama model.
+
+   i.e.:
+```bash
+    cd models
+    huggingface-cli download meta-llama/Llama-3.2-1B \
+        --repository-type model \
+        -p models/Llama-3.2-1B --include-siblings
+```
+
+    i.e. 2:
+ ```bash
+    huggingface-cli download Qwen/Qwen2.5-Coder-7B-Instruct-GGUF --include "qwen2.5-coder-7b-instruct-q5_k_m*.gguf" --local-dir . --local-dir-use-symlinks False
+ ```
+4. **Convert Models**:  
+   - If required, convert models to `GGUF` format using tools provided in the `llama.cpp` repository. Refer to [bloquedecodigo2] for a conversion example.
+
+   i.e.:
+```bash
+    python convert.py \
+        --input-dir models/Llama-3.2-1B \
+        --output-dir models/Llama-3.2-1B.gguf
+```
+
+5. **Run Models**:  
+   - After setup, you can run models interactively. Refer to [bloquedecodigo3] for usage instructions.
+
+```bash
+    llama-cli -m models/Llama-3.2-1B.gguf --interactive --color
+```
+
+
 ### Recommended Models
 Here are some popular models you might consider:
 
