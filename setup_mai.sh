@@ -31,6 +31,8 @@ INSTALL_CUDA="$SCRIPTS_DIR/install_cuda.sh"
 INSTALL_LLAMA_CPP="$SCRIPTS_DIR/install_llama_cpp.sh"
 INSTALL_LLAMA_CPP_PYTHON="$SCRIPTS_DIR/install_llama_cpp_python.sh"
 CONFIGURE_ENVIRONMENT="$SCRIPTS_DIR/configure_environment.sh"
+INSTALL_PYTHON_PACKAGES="$SCRIPTS_DIR/install_python_packages.sh"
+
 
 # Print banner
 print_banner() {
@@ -52,6 +54,8 @@ main() {
     # run_script "$INSTALL_LLAMA_CPP"
     run_script "$INSTALL_LLAMA_CPP_PYTHON"
     run_script "$CONFIGURE_ENVIRONMENT"
+    run_script "$SCRIPTS_DIR/install_python_packages.sh"
+
 
     echo -e "${BLUE}"
     echo "╔═══════════════════════════════════════════╗"

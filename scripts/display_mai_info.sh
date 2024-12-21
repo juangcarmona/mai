@@ -69,8 +69,6 @@ display_system_info() {
     echo -e "${GREEN}Available Memory:${NC} $MEMORY"
 
     # Virtual Environment
-    
-    local VENV_DIR="$MAI_DIR/venv"
     if [ -d "$VENV_DIR" ]; then
         source "$VENV_DIR/bin/activate"
         PACKAGE_COUNT=$(pip list | wc -l)

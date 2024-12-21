@@ -1,14 +1,14 @@
+import os
+
+model_path = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "../models/Llama3.2-3B-Instruct/consolidated.00.pth")
+)
+
 from llama_cpp import Llama
-
-# Ruta al modelo (asegúrate de especificar la ubicación correcta del archivo del modelo)
-model_path = "/path/to/your/ggml-model.bin"
-
-# Inicializa Llama con el modelo
 llm = Llama(model_path=model_path)
 
-# Genera una respuesta para el prompt "Hello, world!"
-response = llm("Hello, world!")
+prompt = "Hello, world! What can you tell me about Llama models?"
+response = llm(prompt)
 
-# Imprime la salida generada por el modelo
 print("Generated Response:")
 print(response["choices"][0]["text"].strip())

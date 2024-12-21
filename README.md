@@ -27,6 +27,35 @@ MAI is not just about setup—it’s about empowerment. The ultimate vision is t
 3. **Empower Developers:** Provide scripts and steps that are easy to replicate, fostering a deeper understanding of the AI and development stack.
 4. **Leverage Local Resources:** Optimize for environments with NVIDIA GPUs, ensuring that users can fully utilize their hardware for AI model training and inference.
 
+## Dependencies Installed
+
+To enable a seamless AI development experience, the following dependencies are installed as part of the MAI setup. These libraries and tools are critical for building, experimenting, and deploying AI models and applications effectively.
+
+### Core Libraries
+- **[PyTorch](https://pytorch.org/)**: An open-source machine learning library for deep learning. It is optimized for both research and production workflows.
+- **[Transformers](https://huggingface.co/docs/transformers/)**: Provides access to state-of-the-art pre-trained models like Llama and GPT for tasks such as text generation, translation, and more.
+- **[Datasets](https://huggingface.co/docs/datasets/)**: A fast, efficient library for managing large datasets, especially for NLP tasks.
+- **[Hugging Face Hub](https://huggingface.co/)**: Allows seamless sharing and retrieval of pre-trained models.
+
+### Tokenization and Preprocessing
+- **[SentencePiece](https://github.com/google/sentencepiece)**: A text tokenizer and detokenizer for handling complex linguistic structures in NLP tasks.
+
+### Optimization and GPU Support
+- **[Accelerate](https://huggingface.co/docs/accelerate/)**: Enables efficient distributed training and inference for large models.
+- **[Optimum](https://huggingface.co/docs/optimum/)**: Hardware-optimized tools for inference and training on various platforms, perfect for maximizing GPU usage.
+
+### Model Execution
+- **[Llama-Cpp-Python](https://github.com/ggerganov/llama.cpp)**: Allows execution of Llama models with optimized performance for lightweight systems.
+
+### API and Deployment
+- **[FastAPI](https://fastapi.tiangolo.com/)**: A modern web framework for building APIs quickly and efficiently.
+- **[Uvicorn](https://www.uvicorn.org/)**: A lightning-fast ASGI server for deploying FastAPI applications.
+
+### Advanced Development
+- **[LangChain](https://www.langchain.com/)**: Provides building blocks for creating complex chains of reasoning with LLMs.
+- **[OpenAI](https://platform.openai.com/docs/)**: Integration library for accessing OpenAI's GPT models.
+- **[Autograd](https://github.com/HIPS/autograd)**: A Python package for automatic differentiation to enable custom training loops.
+
 ## Color Palette
 
 I’ve chosen **Deep Teal (#1E5F74)** as the primary color for MAI. This color reflects sophistication, modernity, and a sense of intelligence and elegance. It embodies the forward-thinking vision of MAI.
