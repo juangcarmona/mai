@@ -34,6 +34,7 @@ INSTALL_LLAMA_CPP_PYTHON="$SCRIPTS_DIR/install_llama_cpp_python.sh"
 CONFIGURE_ENVIRONMENT="$SCRIPTS_DIR/configure_environment.sh"
 INSTALL_PYTHON_PACKAGES="$SCRIPTS_DIR/install_python_packages.sh"
 IMPORT_USEFUL_ALIASES="$SCRIPTS_DIR/import_useful_aliases.sh"
+INSTALL_FIRECRAWL="$SCRIPTS_DIR/install_firecrawl.sh"
 
 
 # Print banner
@@ -53,6 +54,7 @@ main() {
     log "Starting MAI setup..."
     run_script "$INSTALL_ZSH"
     run_script "$INSTALL_UTILITIES"
+    run_script "$INSTALL_FIRECRAWL"
     run_script "$IMPORT_USEFUL_ALIASES"
     run_script "$INSTALL_CUDA"
     # This step should be triggered manually after system setup:

@@ -6,6 +6,8 @@ set -e
 source "$(dirname "$0")/logs.sh"
 source "$(dirname "$0")/constants.sh"
 
+PROJECT_DIR=$(cd "$(dirname $0)/.." && pwd)
+
 # Function to configure environment variables for CUDA and llama.cpp
 configure_environment() {
     log "Configuring environment variables..."
@@ -39,7 +41,23 @@ configure_environment() {
         warn "No NVIDIA GPU detected. Skipping GPU-specific configurations."
     fi
 
+    
+
     log "Environment variables configured successfully. Please restart your terminal or run 'source ~/.zshrc'."
 }
 
+# Configure PYTHONPATH for ZSH
+configure_pythonpath() {
+    echo "Configuring PYTHONPATH for MAI project..."
+    # Add PYTHONPATH to ~/.zshrc if it doesn't exist
+    if ! grep -q "export PYTHONPATH=" ~/.zshrc; then
+        echo "Adding PYTHONPATH to ~/.zshrc"
+        echo "export PYTHONPATH=\$PYTHONPATH:$PROJECT_DIR/src/mai" >> ~/.zshrc
+        echo "Configuration complete. Please run 'source ~/.zshrc' to apply changes."
+    else
+        echo "PYTHONPATH is already set in ~/.zshrc"
+    fi
+}
+
+configure_pythonpath
 configure_environment
