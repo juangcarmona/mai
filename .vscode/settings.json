@@ -18,5 +18,11 @@
         "titleBar.inactiveBackground": "#1e5f7499",
         "titleBar.inactiveForeground": "#e7e7e799"
     },
-    "peacock.remoteColor": "#1E5F74"
+    "peacock.remoteColor": "#1E5F74",
+    "terminal.integrated.defaultProfile.linux": "zsh",
+    "terminal.integrated.profiles.linux": {
+        "zsh": {
+            "path": "/usr/bin/zsh"
+        }
+    }
 }
