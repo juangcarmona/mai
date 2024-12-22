@@ -3,3 +3,11 @@ uvicorn
 transformers
 torch
 pydantic
+
+debugpy
+
+
+pytest
+pytest-cov
+pytest-dotenv
+pytest-mock

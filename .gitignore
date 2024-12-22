@@ -1,3 +1,20 @@
 # Ignore everything in the models folder except README.md
 models/*
 !models/README.md
+node_modules/
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+*.log
+
+# Node.js dependencies (si estás usando algo como npm)
+node_modules/
+
+# Editor settings
+.vscode/
+
+# Environment files
+.env

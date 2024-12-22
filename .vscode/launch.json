@@ -1,22 +1,19 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-      {
-        "name": "Launch Copilot API",
-        "type": "python",
-        "request": "launch",
-        "program": "${workspaceFolder}/src/mai/copilot_api/main.py",
-        "console": "integratedTerminal",
-        "args": [
-          "--reload", 
-          "--host", "0.0.0.0", 
-          "--port", "8000"
-        ],
-        "env": {
-          "PYTHONPATH": "${workspaceFolder}/src"
-        },
-        "justMyCode": true
-      }
-    ]
-  }
-  
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "MAI Copilot API",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/mai/copilot_api/main.py",
+      "console": "integratedTerminal",
+      "env": {
+        "PYTHONUNBUFFERED": "1",
+        "PYTHONPATH": "${workspaceFolder}/src"
+      },
+      "args": [
+        "run"
+      ],
+    }
+  ]
+}
