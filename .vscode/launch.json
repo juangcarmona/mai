@@ -14,6 +14,81 @@
       "args": [
         "run"
       ],
+    },
+    {
+      "name": "Run hello_llama.py",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/examples/hello_llama.py",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/src", // Asegura que el path incluye tu código
+        "DEBUG_MODE": "false"
+      },
+      "args": []
+    },
+    {
+      "name": "Run Llama Benchmark",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/experiments/llama/benchmark_llama.py",
+      "console": "integratedTerminal",
+      "args": [
+        "--model-path",
+        "${workspaceFolder}/models/Claude-mistral-7b/mistral-7b-claude-chat.Q8_0.gguf",
+        "--prompt",
+        "Can you write a fibbonacci function in C#"
+      ],
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/src"
+      }
+    },
+    {
+      "name": "Chat With Llama (Local Model)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/experiments/llama/chat_with_llama.py",
+      "console": "integratedTerminal",
+      "args": [
+        "--model-path",
+        "${workspaceFolder}/models/Qwen2.5-Coder-7B-Instruct/qwen2.5-coder-7b-instruct-q5_k_m-00001-of-00002.gguf"
+      ],
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/src"
+      }
+    },
+    {
+      "name": "Chat With Llama (Hugging Face Model)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/experiments/llama/chat_with_llama.py",
+      "console": "integratedTerminal",
+      "args": [
+        "--repo-id",
+        "second-state/StarCoder2-15B-GGUF",
+        "--filename",
+        "starcoder2-15b-Q2_K.gguf"
+      ],
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/src"
+      }
+    },
+    {
+      "name": "Run Hugging Face Benchmark",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/experiments/huggingface/benchmark_transformer.py",
+      "console": "integratedTerminal",
+      "args": [
+        "--model-name",
+        "gpt2",
+        "--prompt",
+        "What is the capital of France?"
+      ],
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/src"
+      }
     }
   ]
 }

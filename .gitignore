@@ -1,6 +1,4 @@
-# Ignore everything in the models folder except README.md
-models/*
-!models/README.md
+
 node_modules/
 # Python cache files
 __pycache__/
@@ -18,3 +16,7 @@ node_modules/
 
 # Environment files
 .env
+
+# Ignore everything in huggingface folder except README.md
+huggingface/*
+!huggingface/README.md

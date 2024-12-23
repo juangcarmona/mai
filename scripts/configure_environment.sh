@@ -53,11 +53,21 @@ configure_pythonpath() {
     if ! grep -q "export PYTHONPATH=" ~/.zshrc; then
         echo "Adding PYTHONPATH to ~/.zshrc"
         echo "export PYTHONPATH=\$PYTHONPATH:$PROJECT_DIR/src/mai" >> ~/.zshrc
-        echo "Configuration complete. Please run 'source ~/.zshrc' to apply changes."
     else
-        echo "PYTHONPATH is already set in ~/.zshrc"
+        warn "PYTHONPATH is already set in ~/.zshrc"
+    fi
+}
+
+configure_huggingface_home() {
+    echo "Configuring Huggingface Home for MAI project..."
+    if ! grep -q "export HF_HOME=" ~/.zshrc; then
+        echo "Adding HF_HOME to ~/.zshrc"
+        echo "export HF_HOME=$PROJECT_DIR/mai/huggingface" >> ~/.zshrc
+    else
+        warn "HF_HOME is already set in ~/.zshrc"
     fi
 }
 
 configure_pythonpath
 configure_environment
+configure_huggingface_home
