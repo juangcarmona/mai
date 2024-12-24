@@ -16,23 +16,10 @@
       ],
     },
     {
-      "name": "Run hello_llama.py",
-      "type": "debugpy",
-      "request": "launch",
-      "program": "${workspaceFolder}/src/examples/hello_llama.py",
-      "console": "integratedTerminal",
-      "justMyCode": true,
-      "env": {
-        "PYTHONPATH": "${workspaceFolder}/src", // Asegura que el path incluye tu código
-        "DEBUG_MODE": "false"
-      },
-      "args": []
-    },
-    {
       "name": "Run Llama Benchmark",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/src/experiments/llama/benchmark_llama.py",
+      "program": "${workspaceFolder}/src/experiments/benchmark_llama.py",
       "console": "integratedTerminal",
       "args": [
         "--model-path",
@@ -48,7 +35,7 @@
       "name": "Chat With Llama (Local Model)",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/src/experiments/llama/chat_with_llama.py",
+      "program": "${workspaceFolder}/src/experiments/chat_with_llama.py",
       "console": "integratedTerminal",
       "args": [
         "--model-path",
@@ -62,13 +49,15 @@
       "name": "Chat With Llama (Hugging Face Model)",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/src/experiments/llama/chat_with_llama.py",
+      "program": "${workspaceFolder}/src/experiments/chat_with_llama.py",
       "console": "integratedTerminal",
       "args": [
         "--repo-id",
-        "second-state/StarCoder2-15B-GGUF",
+        // "second-state/StarCoder2-15B-GGUF",
+        "QuantFactory/Meta-Llama-3-8B-GGUF",
         "--filename",
-        "starcoder2-15b-Q2_K.gguf"
+        // "starcoder2-15b-Q2_K.gguf"
+        "Meta-Llama-3-8B.Q4_K_M.gguf"
       ],
       "env": {
         "PYTHONPATH": "${workspaceFolder}/src"
@@ -78,7 +67,7 @@
       "name": "Run Hugging Face Benchmark",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/src/experiments/huggingface/benchmark_transformer.py",
+      "program": "${workspaceFolder}/src/experiments/benchmark_transformer.py",
       "console": "integratedTerminal",
       "args": [
         "--model-name",
@@ -89,6 +78,35 @@
       "env": {
         "PYTHONPATH": "${workspaceFolder}/src"
       }
-    }
+    },
+    {
+      "name": "Chat With Transformers",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/experiments/chat_with_transformers.py",
+      "console": "integratedTerminal",
+      "args": [
+        "--model-name",
+        "bigcode/starcoder2-3b"
+      ],
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/src"
+      }
+    },
+    {
+      "name": "Chat with MLX Model",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/experiments/chat_with_mlx.py",
+      "console": "integratedTerminal",
+      "args": [
+          "--model-name",
+          "mitkox/WhiteRabbitNeo-2.5-Qwen-2.5-Coder-7B-mlx"
+      ],
+      "env": {
+          "PYTHONPATH": "${workspaceFolder}/src"
+      }
+  }
+  
   ]
 }
