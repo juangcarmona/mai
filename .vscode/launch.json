@@ -87,7 +87,7 @@
       "console": "integratedTerminal",
       "args": [
         "--model-name",
-        "bigcode/starcoder2-3b"
+        "bigcode/starcoderbase-3b"
       ],
       "env": {
         "PYTHONPATH": "${workspaceFolder}/src"
