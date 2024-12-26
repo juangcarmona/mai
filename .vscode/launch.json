@@ -2,18 +2,43 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "MAI Copilot API",
+      "name": "Run Server (VLLM)",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/src/mai/copilot_api/main.py",
+      "program": "${workspaceFolder}/src/mai/inference_server/api_server.py",
+      "args": [
+        "--model",
+        // "${workspaceFolder}/models/quantized_model",
+        "TheBloke/CodeLlama-7B-Python-AWQ",
+        "--port",
+        "8000",
+        "--quantization",
+        "awq",
+        "--dtype",
+        "half"
+      ],
       "console": "integratedTerminal",
       "env": {
-        "PYTHONUNBUFFERED": "1",
         "PYTHONPATH": "${workspaceFolder}/src"
       },
+      "justMyCode": true
+    },
+    {
+      "name": "Run Server",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/mai/inference_server/api_server.py",
       "args": [
-        "run"
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "8000"
       ],
+      "console": "integratedTerminal",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/src"
+      },
+      "justMyCode": true
     },
     {
       "name": "Run Llama Benchmark",
@@ -100,13 +125,12 @@
       "program": "${workspaceFolder}/src/experiments/chat_with_mlx.py",
       "console": "integratedTerminal",
       "args": [
-          "--model-name",
-          "mitkox/WhiteRabbitNeo-2.5-Qwen-2.5-Coder-7B-mlx"
+        "--model-name",
+        "mitkox/WhiteRabbitNeo-2.5-Qwen-2.5-Coder-7B-mlx"
       ],
       "env": {
-          "PYTHONPATH": "${workspaceFolder}/src"
+        "PYTHONPATH": "${workspaceFolder}/src"
       }
-  }
-  
+    }
   ]
 }

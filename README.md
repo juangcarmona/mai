@@ -1,3 +1,4 @@
+
 # MAI
 
 MAI - My Artificial Intelligence - Working on Ubuntu on WSL
@@ -27,6 +28,56 @@ MAI is not just about setup—it’s about empowerment. The ultimate vision is t
 3. **Empower Developers:** Provide scripts and steps that are easy to replicate, fostering a deeper understanding of the AI and development stack.
 4. **Leverage Local Resources:** Optimize for environments with NVIDIA GPUs, ensuring that users can fully utilize their hardware for AI model training and inference.
 
+## Key Components
+
+MAI integrates several components to provide a modular and efficient development experience. Some of the server-side functionalities have been adapted from existing projects, with proper attribution to their original authors.
+
+### Adapted Components
+
+1. **Endpoint Server**:
+   - Source: [huggingface-vscode-endpoint-server](https://github.com/LucienShui/huggingface-vscode-endpoint-server)
+   - The server provides an endpoint to handle requests from the VSCode extension. The original implementation was adapted and integrated into MAI for better customization and performance.
+
+2. **Efficient Inference Server**:
+   - Source: [llm-vscode-inference-server](https://github.com/wangcx18/llm-vscode-inference-server)
+   - This server enables efficient handling of quantized models for cost-effective local inference.
+
+### Structure
+
+The current structure of MAI reflects these integrations:
+
+```plaintext
+mai/
+├── README.md              
+├── huggingface/             # Models and Hugging Face cache.
+│   ├── hub/                 # Cache of downloaded models.
+│   └── config/              # HF_HOME environment setup.
+├── scripts/                 # Scripts for setup and maintenance.
+│   ├── configure_environment.sh
+│   ├── install_server.sh
+│   ├── install_extension.sh
+│   └── update_components.sh
+├── src/
+│   ├── mai_core/            # Core logic and APIs.
+│   ├── inference_server/    # Efficient Inference Server (adapted code).
+│   │   ├── README.md
+│   │   ├── api_server.py
+│   │   ├── requirements.txt
+│   │   └── ...
+│   ├── server/              # Endpoint Server (adapted code).
+│   │   ├── README.md
+│   │   ├── main.py
+│   │   ├── generators.py
+│   │   └── ...
+│   └── utils/               # Utility scripts.
+│       ├── check_gpu.py
+│       ├── convert_pth_to_gguf.py
+│       └── ...
+.mai/                        # Local directory for runtime and tools.
+├── venv/                    # Python virtual environment.
+└── llama.cpp/               # Source code and builds for llama.cpp.
+```
+
 ## Dependencies Installed
 
 To enable a seamless AI development experience, the following dependencies are installed as part of the MAI setup. These libraries and tools are critical for building, experimenting, and deploying AI models and applications effectively.
@@ -37,24 +88,12 @@ To enable a seamless AI development experience, the following dependencies are i
 - **[Datasets](https://huggingface.co/docs/datasets/)**: A fast, efficient library for managing large datasets, especially for NLP tasks.
 - **[Hugging Face Hub](https://huggingface.co/)**: Allows seamless sharing and retrieval of pre-trained models.
 
-### Tokenization and Preprocessing
-- **[SentencePiece](https://github.com/google/sentencepiece)**: A text tokenizer and detokenizer for handling complex linguistic structures in NLP tasks.
+## New Additions
 
-### Optimization and GPU Support
-- **[Accelerate](https://huggingface.co/docs/accelerate/)**: Enables efficient distributed training and inference for large models.
-- **[Optimum](https://huggingface.co/docs/optimum/)**: Hardware-optimized tools for inference and training on various platforms, perfect for maximizing GPU usage.
+The integration of adapted server components enhances MAI with:
 
-### Model Execution
-- **[Llama-Cpp-Python](https://github.com/ggerganov/llama.cpp)**: Allows execution of Llama models with optimized performance for lightweight systems.
-
-### API and Deployment
-- **[FastAPI](https://fastapi.tiangolo.com/)**: A modern web framework for building APIs quickly and efficiently.
-- **[Uvicorn](https://www.uvicorn.org/)**: A lightning-fast ASGI server for deploying FastAPI applications.
-
-### Advanced Development
-- **[LangChain](https://www.langchain.com/)**: Provides building blocks for creating complex chains of reasoning with LLMs.
-- **[OpenAI](https://platform.openai.com/docs/)**: Integration library for accessing OpenAI's GPT models.
-- **[Autograd](https://github.com/HIPS/autograd)**: A Python package for automatic differentiation to enable custom training loops.
+1. **Seamless Local Hosting**: Adapted servers allow self-hosting for cost-effective development.
+2. **Modular and Scalable Design**: MAI can evolve by adding or updating components as needed.
 
 ## System Utilities
 

@@ -20,8 +20,8 @@ install_utilities() {
     log "Updating package list..."
     sudo apt update -y || error "Failed to update package list."
     log "Installing essential utilities..."
-    sudo apt install -y tree htop curl wget unzip git jq neofetch
-    log "All utilities installed successfully!"
+    sudo apt install -y tree htop curl wget unzip git jq neofetch python3-dev
+    log "All utilities installed successfully!" 
 }
 
 install_utilities
