@@ -38,10 +38,6 @@ MAI integrates several components to provide a modular and efficient development
    - Source: [huggingface-vscode-endpoint-server](https://github.com/LucienShui/huggingface-vscode-endpoint-server)
    - The server provides an endpoint to handle requests from the VSCode extension. The original implementation was adapted and integrated into MAI for better customization and performance.
 
-2. **Efficient Inference Server**:
-   - Source: [llm-vscode-inference-server](https://github.com/wangcx18/llm-vscode-inference-server)
-   - This server enables efficient handling of quantized models for cost-effective local inference.
-
 ### Structure
 
 The current structure of MAI reflects these integrations:
@@ -58,17 +54,14 @@ mai/
 │   ├── install_extension.sh
 │   └── update_components.sh
 ├── src/
-│   ├── mai_core/            # Core logic and APIs.
-│   ├── inference_server/    # Efficient Inference Server (adapted code).
-│   │   ├── README.md
-│   │   ├── api_server.py
-│   │   ├── requirements.txt
-│   │   └── ...
-│   ├── server/              # Endpoint Server (adapted code).
-│   │   ├── README.md
+│   ├── copilot_api/         # Copilot API.
 │   │   ├── main.py
-│   │   ├── generators.py
+│   │   ├── README.md
 │   │   └── ...
+│   ├── core/                
+│   ├── crosscutting/         
+│   ├── generators/          # Multiple ready-to-use source code generators.      
+│   ├── models/
 │   └── utils/               # Utility scripts.
 │       ├── check_gpu.py
 │       ├── convert_pth_to_gguf.py

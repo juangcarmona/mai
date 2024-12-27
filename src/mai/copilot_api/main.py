@@ -1,17 +1,41 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
-from pydantic import BaseModel
-from transformers import AutoModelForCausalLM, AutoTokenizer
-import torch
-
-from mai.crosscutting.logging import get_logger
 from mai.core.constants import COPILOT_API_NAME
-
+from mai.crosscutting.logging import get_logger
+from mai.generators.code_llama_generator import CodeLlamaGenerator
+from mai.generators.generator_manager import GeneratorManager
+from mai.generators.gpt2_generator import GPT2Generator
+from mai.generators.qwen2_5_coder_generator import Qwen2_5CoderGenerator
+from mai.generators.replit_coder_generator import ReplitCodeGenerator
+from mai.generators.santa_coder_generator import SantaCoderGenerator
+from mai.generators.star_coder_generator import StarCoderGenerator
+from mai.generators.tiny_star_coder_generator import TinyStarCoderGenerator
+from mai.models.generate_request import GenerateRequest
 import debugpy
 import os
 import uvicorn
 
 logger = get_logger(COPILOT_API_NAME)
+
+# Initialize the manager
+generator_manager = GeneratorManager()
+
+# Register available generators
+generator_manager.register("codellama", CodeLlamaGenerator(pretrained="TheBloke/CodeLlama-7B-Python-AWQ", device="cpu"))
+generator_manager.register("gpt2", GPT2Generator(pretrained="gpt2", device="cpu"))
+generator_manager.register("tinystarcoder", TinyStarCoderGenerator())
+generator_manager.register("starcoder", StarCoderGenerator(pretrained="bigcode/starcoder", device="cpu"))
+# generator_manager.register("santacoder", SantaCoderGenerator())
+generator_manager.register("qwen",Qwen2_5CoderGenerator() )
+
+# Load the default generator by ENV VAR
+# default_generator = generator_manager.get_default()
+default_generator = generator_manager.get("qwen")
+default_generator.load()  
+
+
+logger.info("Model and tokenizer loaded successfully.")
 
 # Initialize FastAPI
 app = FastAPI(
@@ -19,84 +43,77 @@ app = FastAPI(
     description="Code generation using the StarCoder model.",
     version="1.0.0",
 )
+app.add_middleware(
+    CORSMiddleware
+)  
 
-# Load StarCoder model
-logger.info("Loading StarCoder model...")
-checkpoint = "bigcode/starcoder2-3b"
-# device = "cuda" if torch.cuda.is_available() else "cpu"
-
-# IN MY CASE, CPU is best  (my Graphic card is not too good)
-device = "cpu"
-
-tokenizer = AutoTokenizer.from_pretrained(checkpoint)
-model = AutoModelForCausalLM.from_pretrained(checkpoint).to(device)
-
-# Configure tokenizer padding token
-if tokenizer.pad_token is None:
-    tokenizer.pad_token = tokenizer.eos_token
-
-# Request model
-class CodeRequest(BaseModel):
-    prompt: str
-    max_length: int = 100
-    fill_in_middle: bool = False  # Enable Fill-in-the-Middle (FIM)
-
-# Endpoint for code generation
-@app.post("/generate_code/")
-async def generate_code(request: CodeRequest):
+def clean_and_format_generated_text(inputs: str, generated_text: str) -> str:
     """
-    Generates code based on the provided prompt.
-    Supports Fill-in-the-Middle (FIM) if enabled.
+    Clean and format the generated text.
     """
-    context = (
-        "You are a code generation assistant. "
-        "Your task is to assist in writing efficient and correct code snippets based on the user's input. "
-        "Provide concise and accurate code suggestions.\n\n"
-        "### Input:\n"
+    # Remove the original prompt from the generated text
+    cleaned_text = generated_text.replace(inputs, "").strip()
+
+    cleaned_text = (
+    cleaned_text.replace("<fim_prefix>", "")
+    .replace("<fim_suffix>", "")
+    .replace("<fim_middle>", "")
+    .strip()
     )
-    if request.fill_in_middle:
-        logger.info("Using Fill-in-the-Middle (FIM) mode.")
-        input_text = f"{context}### Task:\n<fim_prefix>{request.prompt}<fim_suffix><fim_middle>\n### Output:\n"
-    else:
-        logger.info("Using standard mode.")
-        input_text = f"{context}### Task:\n{request.prompt}\n### Output:\n"
+    
+    
+    # Decode escaped quotes and ensure comments are preserved
+    cleaned_text = cleaned_text.replace('\\"', '"').replace("\\'", "'")
 
-    # Tokenize the input
-    inputs = tokenizer(
-        input_text,
-        return_tensors="pt",
-        padding=True,
-        truncation=True,
-        max_length=request.max_length
-    ).to(model.device)
+    # Separate the lines and ensure there are no extra whitespaces
+    lines = [line.strip() for line in cleaned_text.split("\n") if line.strip()]
+    
+    # Split lines to clean and reassemble with proper formatting
+    lines = cleaned_text.split("\n")
+    formatted_lines = []
 
-    # Generate output
-    outputs = model.generate(
-        inputs.input_ids,
-        attention_mask=inputs.attention_mask,
-        max_new_tokens=request.max_length,
-        pad_token_id=tokenizer.pad_token_id,
-        temperature=0.8,
-        top_p=0.9,
-        do_sample=True
-    )
+    for line in lines:
+        if line.strip():  # Skip empty lines
+            formatted_lines.append(line.strip())
 
-    # Decode and clean up the response
-    generated_code = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    # Join the formatted lines into a single text
+    return "\n".join(formatted_lines)
 
-    # Remove the context if included in the response
-    if generated_code.startswith(context.strip()):
-        generated_code = generated_code[len(context.strip()):].strip()
+@app.post("/api/generate/")
+async def generate_code(request: GenerateRequest):
+    """
+    Endpoint to generate code suggestions based on the input prompt.
+    """
+    try:
+        inputs = request.inputs 
+        parameters = request.parameters 
+        
+        logger.info(f"Received inputs: {inputs}")
+        logger.info(f"Received parameters: {parameters}")
 
-    return {"prompt": request.prompt, "generated_code": generated_code}
+        # Use the default generator
+        generated_text = default_generator.generate(inputs, parameters)
 
+        # Clean and format the output
+        cleaned_text = clean_and_format_generated_text(inputs, generated_text)
 
+        logger.info(f"Generated code: {cleaned_text}")
+
+        # Return the response
+        return {
+            "generated_text": cleaned_text, 
+            "status": 200
+        }
+    
+        
+    except Exception as e:
+        logger.error(f"Error during generation: {e}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
 
 @app.get("/", include_in_schema=False, response_class=RedirectResponse)
 async def redirect_to_swagger():    
     logger.info("Redirect to swagger...")
     return RedirectResponse(url="/docs")
-
 
 if __name__ == "__main__":
     if os.getenv("DEBUG_MODE") == "true":

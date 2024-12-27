@@ -1,7 +1,7 @@
 import logging
 from mai.core import constants
 
-def get_logger(name):
+def get_logger(name=None):
     logging.basicConfig(
         level=logging.INFO,
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',

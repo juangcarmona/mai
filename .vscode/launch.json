@@ -41,96 +41,24 @@
       "justMyCode": true
     },
     {
-      "name": "Run Llama Benchmark",
+      "name": "Copilot API",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/src/experiments/benchmark_llama.py",
-      "console": "integratedTerminal",
+      "program": "${workspaceFolder}/src/mai/copilot_api/main.py",
       "args": [
-        "--model-path",
-        "${workspaceFolder}/models/Claude-mistral-7b/mistral-7b-claude-chat.Q8_0.gguf",
-        "--prompt",
-        "Can you write a fibbonacci function in C#"
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "8000"
       ],
-      "env": {
-        "PYTHONPATH": "${workspaceFolder}/src"
-      }
-    },
-    {
-      "name": "Chat With Llama (Local Model)",
-      "type": "debugpy",
-      "request": "launch",
-      "program": "${workspaceFolder}/src/experiments/chat_with_llama.py",
       "console": "integratedTerminal",
-      "args": [
-        "--model-path",
-        "${workspaceFolder}/models/Qwen2.5-Coder-7B-Instruct/qwen2.5-coder-7b-instruct-q5_k_m-00001-of-00002.gguf"
-      ],
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/src"
-      }
-    },
-    {
-      "name": "Chat With Llama (Hugging Face Model)",
-      "type": "debugpy",
-      "request": "launch",
-      "program": "${workspaceFolder}/src/experiments/chat_with_llama.py",
-      "console": "integratedTerminal",
-      "args": [
-        "--repo-id",
-        // "second-state/StarCoder2-15B-GGUF",
-        "QuantFactory/Meta-Llama-3-8B-GGUF",
-        "--filename",
-        // "starcoder2-15b-Q2_K.gguf"
-        "Meta-Llama-3-8B.Q4_K_M.gguf"
-      ],
-      "env": {
-        "PYTHONPATH": "${workspaceFolder}/src"
-      }
-    },
-    {
-      "name": "Run Hugging Face Benchmark",
-      "type": "debugpy",
-      "request": "launch",
-      "program": "${workspaceFolder}/src/experiments/benchmark_transformer.py",
-      "console": "integratedTerminal",
-      "args": [
-        "--model-name",
-        "gpt2",
-        "--prompt",
-        "What is the capital of France?"
-      ],
-      "env": {
-        "PYTHONPATH": "${workspaceFolder}/src"
-      }
-    },
-    {
-      "name": "Chat With Transformers",
-      "type": "debugpy",
-      "request": "launch",
-      "program": "${workspaceFolder}/src/experiments/chat_with_transformers.py",
-      "console": "integratedTerminal",
-      "args": [
-        "--model-name",
-        "bigcode/starcoderbase-3b"
-      ],
-      "env": {
-        "PYTHONPATH": "${workspaceFolder}/src"
-      }
-    },
-    {
-      "name": "Chat with MLX Model",
-      "type": "debugpy",
-      "request": "launch",
-      "program": "${workspaceFolder}/src/experiments/chat_with_mlx.py",
-      "console": "integratedTerminal",
-      "args": [
-        "--model-name",
-        "mitkox/WhiteRabbitNeo-2.5-Qwen-2.5-Coder-7B-mlx"
-      ],
-      "env": {
-        "PYTHONPATH": "${workspaceFolder}/src"
-      }
+        "PYTHONPATH": "${workspaceFolder}/src",
+        // "DEFAULT_GENERATOR": "codellama"
+        "DEFAULT_GENERATOR": "tinystarcoder"
+        // "DEFAULT_GENERATOR": "gpt2"
+      },
+      "justMyCode": true
     }
   ]
 }
