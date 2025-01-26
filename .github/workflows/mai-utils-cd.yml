@@ -28,15 +28,13 @@ jobs:
           pip install setuptools wheel twine bump2version
 
 
-      - name: Check for setup.py
+      - name: Verify all required files
         run: |
-            if [ -f "mai/utils/setup.py" ]; then
-            echo "setup.py found"
-            else
-            echo "setup.py not found in mai/utils"
-            exit 1
-            fi
-
+          if [ ! -f mai/utils/setup.py ]; then
+              echo "setup.py is missing. Please ensure all files are present."
+              exit 1
+          fi
+  
       - name: Check for changes in mai/utils
         id: changes
         run: |
