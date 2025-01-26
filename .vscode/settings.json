@@ -1,0 +1,27 @@
+{
+    "python.defaultInterpreterPath": ".venv/bin/python",
+    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.diagnosticSeverityOverrides": {
+        "reportMissingImports": "none"
+    },
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#77d496",
+        "activityBar.background": "#77d496",
+        "activityBar.foreground": "#15202b",
+        "activityBar.inactiveForeground": "#15202b99",
+        "activityBarBadge.background": "#8f6ed1",
+        "activityBarBadge.foreground": "#15202b",
+        "commandCenter.border": "#15202b99",
+        "sash.hoverBorder": "#77d496",
+        "statusBar.background": "#50c878",
+        "statusBar.foreground": "#15202b",
+        "statusBarItem.hoverBackground": "#37ae5f",
+        "statusBarItem.remoteBackground": "#50c878",
+        "statusBarItem.remoteForeground": "#15202b",
+        "titleBar.activeBackground": "#50c878",
+        "titleBar.activeForeground": "#15202b",
+        "titleBar.inactiveBackground": "#50c87899",
+        "titleBar.inactiveForeground": "#15202b99"
+    },
+    "peacock.remoteColor": "#50C878"
+}

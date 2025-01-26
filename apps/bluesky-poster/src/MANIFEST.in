@@ -1,0 +1,2 @@
+include LICENSE README.md pyproject.toml setup.cfg setup.py
+recursive-include src *.yaml *.md

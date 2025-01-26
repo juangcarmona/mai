@@ -1,0 +1,17 @@
+{
+  "configurations": [
+    {
+      "name": "Debug Bluesky Poster",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/apps/bluesky-poster/src/main.py",
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "envFile": "${workspaceFolder}/apps/bluesky-poster/.env",
+      "args": [],
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/apps/bluesky-poster/src"
+      }
+    }
+  ]
+}
