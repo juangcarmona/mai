@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'mai/utils/**'
+  workflow_dispatch:
 
 jobs:
   check-and-publish:
