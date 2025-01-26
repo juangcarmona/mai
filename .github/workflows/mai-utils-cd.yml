@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - 'mai/utils/**'
-  workflow_dispatch:
+  workflow_dispatch:  # Allow manual execution
 
 jobs:
   check-and-publish:
@@ -27,24 +27,25 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install setuptools wheel twine bump2version
-      
+
       - name: Configure Git user
         run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
-  
+
       - name: Check for changes in mai/utils
         id: changes
         run: |
           if git diff --quiet HEAD^ HEAD -- mai/utils/; then
             echo "No changes in mai/utils"
-            exit 0
+            echo "skip_bump=true" >> $GITHUB_OUTPUT
           else
             echo "Changes detected in mai/utils"
+            echo "skip_bump=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Bump version
-        id: version
+      - name: Bump version (if changes detected)
+        if: steps.changes.outputs.skip_bump == 'false'
         run: |
           if [ -f setup.py ]; then
             bump2version patch --allow-dirty --current-version $(python setup.py --version) --commit --tag
