@@ -48,7 +48,7 @@ jobs:
       - name: Bump version
         id: version
         run: |
-          if [ -f mai/utils/setup.py ]; then
+          if [ -f setup.py ]; then
             bump2version patch --allow-dirty --current-version $(python setup.py --version) --commit --tag
           else
             echo "setup.py not found!"
